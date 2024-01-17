@@ -11,4 +11,7 @@ app.set("view engine", 'ejs');
 const home = require('./src/routes/home');
 app.use("/", home)
 
+//  /js/home/login.js의 정적 경로 추가
+app.use(express.static(`${__dirname}/src/public`))
+
 module.exports = app;
