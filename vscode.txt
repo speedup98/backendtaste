@@ -1,0 +1,2 @@
+Colonize : 마지막에 세미콜론, shift + enter, alt + enter
+Beauty : 코드 정리, cmd + shift + B
