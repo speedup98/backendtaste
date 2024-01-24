@@ -1,5 +1,5 @@
 "use strict";
-const appRoot = require('app-root-path').path;
+const appRoot = require('app-root-path');
 global.appRoot = appRoot; //변수 글로벌로 설정
 const dir = require(appRoot + '/config');
 global.dir = dir;

@@ -1,8 +1,8 @@
 "use strict";
 
-const appdir = '/app/src';
+const srcdir = '/src';
 const dirlist = {
-    dirmodels : appRoot + appdir + '/models',
+    dirmodels : appRoot + srcdir + '/models',
 };
 
 module.exports = {

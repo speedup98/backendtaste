@@ -1,6 +1,7 @@
 "use strict";
 
 const UserStorage = require(dir.dirlist.dirmodels +  "/UserStorage");
+
 const output = {
     hello: (req, res) => {
         res.render("home/index");
