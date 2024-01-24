@@ -9,15 +9,11 @@ class UserStorage {
     };
 
     static getUsers(...fields) { //...변수명은 인자값으로 들어오는게 몇개든지 상관없게 만든다. 인자값으로 들어올때 작은따옴표로 처리해야 한다.
-        let sum = [1,2,3,4,5,6];
-        var a = sum.reduce((tot, el, i) =>{
-                return tot + el
-        }, 0);
-        console.log(a);
+        //https://miiingo.tistory.com/365 reduce관련해서 참고
         const users = this.#users;
         // console.log(users);
-        const newUsers = fields.reduce((speedup, field, speedup98) => {
-            console.log(speedup, field, speedup98);
+        const newUsers = fields.reduce((speedup, field, idx) => {
+            console.log(speedup, field, idx);
             // if (users.hasOwnProperty(field)) {
             //     newUsers[field] = users[field];
             // }
