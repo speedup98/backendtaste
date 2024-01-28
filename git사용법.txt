@@ -1,0 +1,26 @@
+. 최초 초기화를 해줘야 한다.
+    - git init
+    - .git으로 설정 관련된 파일들이 저장되는 디렉토리가 생성된다.
+    - git config --global 유저정보 등록, git config --global user.name <name>
+    - git config --global 유저정보 제거, git config --unset --global user.name
+    - git config --global 등록정보 확인, git config --global --list
+
+. 파일 생성후 git add 파일명 형태로 실행하며 아직 commit이 되지 않은 상태이다.
+. git status로 현재 상태가 확인이 된다. 수정 또는 생성된 상태인데 아직 추가되지 않은 경우는 붉은색으로 표시된다. git add 파일명을 해주게 되면 git commit을 할수 있는 상태가 된다.
+. git commit으로 현재 add된(생성 또는 ) 파일들에 대한 커멘트 작성이 가능하다. 이 커멘트를 기반으로 git log를 통해 변경 히스토리를 확인할 수 있다.
+. git log -p는 변경 히스토리 및 파일의 변경된 이력을 확인할 수 있다.
+. git log로 나오는 리스트에서 commit 옆에 commit의 ID를 가지고 변경 내역을 확인할수 있다.
+    -  git diff 733edb0342bc908ebd1afb901b2161a4230b3429..cf9cab4b36e15610ffa3e1b7480968d1d524863b 이 아이디 사이의 변경 내역을 확인 할 수 있다.
+. gif diff는 add하기전에 마지막으로 변경된 내용을 확인할 수 있는 방법이다. git add 하는 순간 git diff 로는 확인이 불가능하다
+. 원복 : reset vs revert
+    - git reset (commit ID) --hard : commit ID까지로 다시 원복
+    - gir revert : 
+. git commit -a : git add 없이 commit까지 실행한다. git commit -am : git add 없이 commit까지 실행하는데 에디터를 사용하지 않고 마로 메시지를 적을수 있다.
+. git add의 원리
+    - .git디렉토리의 index 파일에 objects 디렉토리의 파일명과 실제 파일명에 대한 내용이 들어있다. 이걸 보는 방법은 git ls-files --stage 이다. 
+        앞의 두자리 숫자는 objects 디렉토리 안에 디렉토리명이고 그 후에 나오는게 파일명이 된다. 이 파일을 열어보면 실제 파일의 내용이 여기에 들어가 있게 된다.
+    - objects의 내용을 확인하는 방법은 git show 78981292 과 같이 디렉토리명 앞의 두자리 그리고 파일명 몇개자리만 입력하면 파일의 내용을 볼수 있다.
+    - 파일의 이름이 달라도 내용이 같다면 동일한 인덱싱넘버를 가지고 있게 된다. 다만 idnex파일에 파일의 이름이 다른것은 기록을 하고 있다. 이런 경우는
+        파일을 다른이름으로 카피할때 또는 동일한 내요일때 이런 현상이 나오게 된다.
+
+. branch 사용

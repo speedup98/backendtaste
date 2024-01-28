@@ -13,15 +13,12 @@ class UserStorage {
         const users = this.#users;
         // console.log(users);
         const newUsers = fields.reduce((speedup, field, idx) => {
-            console.log(speedup, field, idx);
-            // if (users.hasOwnProperty(field)) {
-            //     newUsers[field] = users[field];
-            // }
-            // return newUsers;
-            
+            if (users.hasOwnProperty(field)) {
+                speedup[field] = users[field];
+            }
+            return speedup;
         }, {});
-        // console.log(newUsers);
-        return ;
+        return newUsers;
     }
 }
 

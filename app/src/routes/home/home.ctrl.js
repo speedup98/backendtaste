@@ -17,7 +17,7 @@ const process = {
         const id = req.body.id,
         psword = req.body.psword
         //인자값으로 들어올때 작은따옴표로 처리해야 한다.
-        UserStorage.getUsers('id', 'psword', 'name');
+        const users = UserStorage.getUsers('id', 'psword');
 
         const response = {};
         // if (users.id.includes(id)) {
