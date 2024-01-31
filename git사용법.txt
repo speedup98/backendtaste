@@ -1,5 +1,6 @@
 . 최초 초기화를 해줘야 한다.
     - git init
+    - git init --bare : 저장만 가능한 저장소. 실스시 원격 저장소용으로 사용한다.
     - .git으로 설정 관련된 파일들이 저장되는 디렉토리가 생성된다.
     - git config --global 유저정보 등록, git config --global user.name <name>
     - git config --global 유저정보 제거, git config --unset --global user.name
@@ -10,12 +11,14 @@
 . git commit으로 현재 add된(생성 또는 ) 파일들에 대한 커멘트 작성이 가능하다. 이 커멘트를 기반으로 git log를 통해 변경 히스토리를 확인할 수 있다.
 . git log -p는 변경 히스토리 및 파일의 변경된 이력을 확인할 수 있다.
 . git log로 나오는 리스트에서 commit 옆에 commit의 ID를 가지고 변경 내역을 확인할수 있다.
-    -  git diff 733edb0342bc908ebd1afb901b2161a4230b3429..cf9cab4b36e15610ffa3e1b7480968d1d524863b 이 아이디 사이의 변경 내역을 확인 할 수 있다.
+    - git diff 733edb0342bc908ebd1afb901b2161a4230b3429..cf9cab4b36e15610ffa3e1b7480968d1d524863b 이 아이디 사이의 변경 내역을 확인 할 수 있다.
+    - git log로 나오는 commit id값으로 상태를 되돌릴수 있다. git checkout e83c5163316f89bfbde7d9ab23ca2e25604af290 이런식으로 branch를 이동할 수 있다.
 . gif diff는 add하기전에 마지막으로 변경된 내용을 확인할 수 있는 방법이다. git add 하는 순간 git diff 로는 확인이 불가능하다
 . 원복 : reset vs revert
     - git reset (commit ID) --hard : commit ID까지로 다시 원복
     - gir revert : 
 . git commit -a : git add 없이 commit까지 실행한다. git commit -am : git add 없이 commit까지 실행하는데 에디터를 사용하지 않고 마로 메시지를 적을수 있다.
+    - 중요한점 : 한번도 add가 되지않은 파일은 git commit -a 옵션이 먹지를 않는다.
 . git add의 원리
     - .git디렉토리의 index 파일에 objects 디렉토리의 파일명과 실제 파일명에 대한 내용이 들어있다. 이걸 보는 방법은 git ls-files --stage 이다. 
         앞의 두자리 숫자는 objects 디렉토리 안에 디렉토리명이고 그 후에 나오는게 파일명이 된다. 이 파일을 열어보면 실제 파일의 내용이 여기에 들어가 있게 된다.
@@ -24,3 +27,35 @@
         파일을 다른이름으로 카피할때 또는 동일한 내요일때 이런 현상이 나오게 된다.
 
 . branch 사용
+. git branch => master(기본), 생성된 브랜치가 나온다.
+. branch 생성 : git branch 이름
+. branch 이동 : git checkout 이름
+    - 최초 기본 master 외에 다른 branch를 생성해주게 되면 현시점의 master를 공유하게 된다. 
+        여기서 부터 branch를 이동해서 작업 해주게 되면 동일한 파일이라도 내용과 로그의 내용이 틀려진다.
+    - 파일 생성후 add의 경우는 master, exp가 서로 전환하면서 가지게 되지만 commit하는 branch에서 소유권을 가지고 파일의 리스트업도 서로 구분이 된다.
+    - git checkout -b 이름 : 이름으로 branch생성후 바로 이동
+. branch 정보 확인 : git log --branches(여기까지 하면 모든 branch의 정보 보여줌) --decorate --graph HEAD에 화살표가 현재 branch, 각 branch의 최신 commit이 나온다.
+    - git log master..exp master에는 없고 exp에는 있는 것들을 보여준다. git log exp..master는 반대
+    - git diff master..exp는 가령 양쪽에 f1.txt라는 파일이 있을때 서로 다른 커밋으로 인해서 내용이 틀리다면 서로 차이점을 보여준다. diff --git a/f1.txt b/f1.txt 여기서 a는 master, b는 exp
+. branch 병합
+    - exp의 commit내용을 master로 병합시킨다. 순서 중요. 일단 master로 checkout
+    - git merge exp후 에디터에서 wq로 나온다.
+    - git log --branches --graph --decorate --oneline로 확인가능
+
+. stash : 숨겨놓다. checkout을 커밋없이 하게 되면 다른쪽으로도 넘어갈수 있기 때문에 그때 감추기 위해서 사용한다. branch를 자주 사용한다면 이걸 알아야 한다.
+    - stash의 조건은 add를 통해서 추적이 되는 파일만 해당한다. 만약 생성후 git add를 하지 않으면 stash가 적용 안된다.
+    - 다시 살려놓기 : git stash apply를 하게 되면 git add 이전으로 돌아간다.
+    - git reset --hard 로 최신 커밋으로 돌려놓아서 git status에 아무 내용이 없다고 해도 git stash list 에 리스트가 있다면 git stash apply로 다시 add전으로 살려놓을 수 있다.
+    - 즉 stash 해 놓은 것은 명시적으로 삭제 하지 않는 이상 reset을 해도 살아 있다.
+    
+. branch merge 과정 중 충돌 해결
+    - 내용 필요 없음
+
+. 원격 저장소 사용 실습
+    - 일단 실습을 위해 git init local 디렉토리 생성, git init --bare remote 생성
+    - remote를 연결하기 위해서 git remote add origin /c/Users/speedup/Documents/gitfth/remote, 삭제시 git remote remove origin
+    - git remote -v로 확인 가능
+
+. github사용
+    - 로컬로 clone하기 : git clone https://github.com/git/git.git gitsrc(저장할 디렉토리 지정, 아니면 git.git의 확장자 앞에 거로 디렉토리가 만들어진 후 저장된다.)
+    - git push -u origin master -u옵션은 사용자 아이디, 패스워드 저장하겠다는 의미. 이후 부터 push는 git push로 대체 가능
