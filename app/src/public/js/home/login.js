@@ -2,7 +2,7 @@
 
 const id = document.querySelector("#id"),
     psword = document.querySelector("#psword"),
-    loginBtn = document.querySelector("button");
+    loginBtn = document.querySelector("#button");
 
 loginBtn.addEventListener("click", login);// 여기서 login은 만들어줘야 하는 함수이다.
 

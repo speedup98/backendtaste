@@ -20,6 +20,10 @@ class User {
         }
         return {success:false, msg: '아이디가 없습니다'};
     }
+
+    register() {
+        UserStorage.save(this.body);
+    }
 }
 
 module.exports = User;
