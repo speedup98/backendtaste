@@ -1,6 +1,6 @@
 "use strict";
 
-const UserStorage = require(dir.dirlist.dirmodels +  "/UserStorage");
+const User = require(dir.dirlist.dirmodels +  "/User");
 
 const output = {
     hello: (req, res) => {
@@ -11,25 +11,28 @@ const output = {
     }
 }
 
-
 const process = {
     login: (req, res) => {
-        const id = req.body.id,
-        psword = req.body.psword
-        //인자값으로 들어올때 작은따옴표로 처리해야 한다.
-        const users = UserStorage.getUsers('id', 'psword');
-        const response = {};
-        if (users.id.includes(id)) {
-            const idx = users.id.indexOf(id);
-            if (users.psword[idx] === psword) {
-                response.success = true;
-                response.msg = "로그인에 성공 하셨습니다.";
-                return res.json (response);
-            }
-        }
-        response.success = false;
-        response.msg = "로그인에 실패 하셨습니다.";
+        const user = new User(req.body);
+        const response = user.login();
+        console.log(response);
         return res.json(response);
+        // const id = req.body.id,
+        // psword = req.body.psword
+        // //인자값으로 들어올때 작은따옴표로 처리해야 한다.
+        // const users = UserStorage.getUsers('id', 'psword');
+        // const response = {};
+        // if (users.id.includes(id)) {
+        //     const idx = users.id.indexOf(id);
+        //     if (users.psword[idx] === psword) {
+        //         response.success = true;
+        //         response.msg = "로그인에 성공 하셨습니다.";
+        //         return res.json (response);
+        //     }
+        // }
+        // response.success = false;
+        // response.msg = "로그인에 실패 하셨습니다.";
+        // return res.json(response);
     }
 }
 

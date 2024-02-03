@@ -11,7 +11,7 @@ class UserStorage {
     static getUsers(...fields) { //...변수명은 인자값으로 들어오는게 몇개든지 상관없게 만든다. 인자값으로 들어올때 작은따옴표로 처리해야 한다.
         //https://miiingo.tistory.com/365 reduce관련해서 참고
         const users = this.#users;
-        // console.log(users);
+        //console.log(users);
         const newUsers = fields.reduce((speedup, field, idx) => {
             if (users.hasOwnProperty(field)) {
                 speedup[field] = users[field];
@@ -19,6 +19,17 @@ class UserStorage {
             return speedup;
         }, {});
         return newUsers;
+    }
+
+    static getUserInfo(id) {
+        const users = this.#users;
+        const idx = users.id.indexOf(id); //유저 아이디로 넘어온값의 index가 넘어오며 만약에 없을경우 -1을 반환한다.
+        const usersKeys = Object.keys(users);
+        const userInfo = usersKeys.reduce((speedup, info, idxI) => {
+            speedup[info] = users[info][idx];
+            return speedup;
+        }, {});
+        return userInfo;
     }
 }
 
