@@ -8,11 +8,11 @@ class User {
     }
 
     login() {
-        const body = this.body;
-        const a = UserStorage.getUserInfo(this.body.id); //결과값 : { id: 'woorimIT', psword: '1234', name: '우리밋' }
-        const {id, psword} = UserStorage.getUserInfo(this.body.id); //결과값 : woorimIT 1234
+        const client = this.body;
+        const a = UserStorage.getUserInfo(client.id); //결과값 : { id: 'woorimIT', psword: '1234', name: '우리밋' }
+        const {id, psword} = UserStorage.getUserInfo(client.id); //결과값 : woorimIT 1234
         if (id) {
-            if (id === this.body.id && psword === this.body.psword) {
+            if (id === client.id && psword === client.psword) {
                 return {success:true, msg: ''};
             } else {
                 return {success:false, msg: '비밀 번호가 틀렸습니다'};
@@ -22,7 +22,8 @@ class User {
     }
 
     register() {
-        UserStorage.save(this.body);
+        const client = this.body;
+        UserStorage.save(client);
     }
 }
 
