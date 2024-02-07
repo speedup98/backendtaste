@@ -15,10 +15,9 @@ const output = {
 }
 
 const process = {
-    login: (req, res) => {
+    login: async (req, res) => { //async는 익명 함수이든 어디든 함수 앞에 걸어줘야 한다.
         const user = new User(req.body);
-        const response = user.login();
-        // console.log(response);
+        const response = await user.login();
         return res.json(response);
     },
     register: (req, res) => {
