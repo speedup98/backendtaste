@@ -15,7 +15,9 @@ class UserStorage {
         return userInfo;
     }
 
-    static #getUsers() {
+    static #getUsers(data, isAll, fields) {
+        const users = JSON.parse(data);
+        if (isAll == true) return users;
         const newUsers = fields.reduce((speedup, field, idx) => {
             if (users.hasOwnProperty(field)) {
                 speedup[field] = users[field];
@@ -25,12 +27,12 @@ class UserStorage {
         return newUsers;        
     }
 
-    static getUsers(...fields) { //...변수명은 인자값으로 들어오는게 몇개든지 상관없게 만든다. 인자값으로 들어올때 작은따옴표로 처리해야 한다.
+    static getUsers(isAll, ...fields) { //...변수명은 인자값으로 들어오는게 몇개든지 상관없게 만든다. 인자값으로 들어올때 작은따옴표로 처리해야 한다.
         //https://miiingo.tistory.com/365 reduce관련해서 참고
         // const users = this.#users;
         return fs.readFile(dir.dirlist.dirdatabases + "/users.json")
         .then((data) => {
-            return this.#getUserInfo(data, id)
+            return this.#getUsers(data, isAll, fields)
         }) //성공했을때 실행;
         .catch(console.error); //에러가 났을때 실행
     }
@@ -44,16 +46,22 @@ class UserStorage {
         .catch(console.error); //에러가 났을때 실행
     }
 
-    static save(userInfo) {
+    static async save(userInfo) {
         // users.id.push(userInfo.id);
         // users.name.push(userInfo.name);
         // users.psword.push(userInfo.psword);0
         // return {success:true};
-        const users = this.getUsers("id", "psword", "name");
-
+        const users = await this.getUsers(true);
+        if (users.id.includes(userInfo.id)) {
+            return new Error("이미 존재하는 아이디입니다.");
+        }
+        users.id.push(userInfo.id);
+        users.name.push(userInfo.name);
+        users.psword.push(userInfo.psword);
         //데이터 추가
-        fs.writeFile(dir.dirlist.dirdatabases + "/users.json", users);
-    }
+        fs.writeFile(dir.dirlist.dirdatabases + "/users.json", JSON.stringify(users));
+        return {success: true};
+}
 }
 
 module.exports = UserStorage;
